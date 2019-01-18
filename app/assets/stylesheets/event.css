@@ -1,7 +1,15 @@
 div {
-  display: inline-block;
+  display: block;
   width: 30%;
   left: 35%;
-  position: absolute;
+  margin: 1em;
+  padding: 1em;
+  position: relative;
+
+  text-align: center;
+
+  border: solid;
+  border-width: 1px;
+  border-radius: 2em;
 }
 

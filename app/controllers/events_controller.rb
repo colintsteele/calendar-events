@@ -1,7 +1,7 @@
 class EventsController < ActionController::Base 
   skip_before_action :verify_authenticity_token 
   def index
-    @event = Event.first
+    @events = Event.last(20)
   end
 
   def create
