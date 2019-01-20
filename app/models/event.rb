@@ -14,10 +14,9 @@ class Event < ActiveRecord::Base
     p = parsed_payload
     {
       type: p['event_type']['kind'],
-      event_type_uuid: p['event_type']['uuid'],
-      event_uuid: p['event']['uuid'],
+      invitee: p['invitee']['name'],
       event_time: p['event']['start_time_pretty'],
-      duration: p['event_type']['duration'],
+      duration: p['event_type']['name']
     }
   end
 end

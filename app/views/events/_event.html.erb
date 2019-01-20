@@ -1,3 +1,7 @@
 <div>
-  <%= event.details %>
+  <span><%= event.details[:type] %> </span>
+  <span>at <%= event.details[:event_time]%></span>
+  <span>with <%= event.details[:invitee]%></span>
+  <br/>
+  <span><%= event.details[:duration]%></span>
 </div>
