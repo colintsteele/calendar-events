@@ -1,16 +1,16 @@
 # README
 # Colin's Calendly app
 
-This application renders my calendly event history at http://colinsteele.io.  The events are taken by an API Gateway endpoint on AWS, and routed to my EC2 instance through a Lambda function.  Events are rendered in real team, through ActionCable, so if you send a meeting invite to my Calendly account, Colin Steele, the event (or events if it is a reschedule) will show up without the need for the page to be refreshed.  If for whatever reason my application is not running, events will be stored in an Amazon S3 bucket and saved to my database on application startup through a rails initializer.  
+This application renders my calendly event history at http://colinsteele.io.  The events are taken by an API Gateway endpoint on AWS and routed to my EC2 instance through a Lambda function.  Events are rendered in real time, through ActionCable, so if you send a meeting invite to my Calendly account, Colin Steele, the event (or events if it is a reschedule) will show up without the need for the page to be refreshed.  If for whatever reason my application is not running, events will be stored in an Amazon S3 bucket and saved to my database on application startup through a rails initializer.  
 
-This app ended up having a more dev-ops/infrastructure focus as opposed to a focus on functionality around the data model coming from Calendly's API.  The reason for this is perhaps because my development team lost our ops engineer and has been relying more on the developers to get ops work done.  Because of this, I've been spending more time working on my skills with AWS and this assignment has been a good opportunity to exercise those skills.  Unfortunately none of this is readily apparent when looking at the application's index page, but I'll be happy to demo it at the Calendly offices ;) 
+This app ended up having a more dev-ops/infrastructure focus as opposed to a focus on functionality around the data model coming from Calendly's API.  The reason for this is perhaps because my development team lost our ops engineer and has been relying more on the developers to get ops work done.  Because of this, I've been spending more time working on my skills with AWS and this assignment has been a good opportunity to exercise those skills.  Unfortunately, none of this is readily apparent when looking at the application's index page, but I'll be happy to demo it at the Calendly offices ;) 
 
 # Issues
   - If events from Calendly can come in with the same Timecode, only the most recent one will be available on S3.
-  - Several times throughout the development process, I had to change permissions for folders, such as `tmp/cache` for Rails' System Tests.  Once this happend with the development database as well.
+  - Several times throughout the development process, I had to change permissions for folders, such as `tmp/cache` for Rails' System Tests.  Once this happened with the development database as well.
   - The S3 gem stopped working briefly when it stopped being able to access my AWS config and didn't have a region name.  The solution was to add it to the `ENV` hash, and there's probably a better way to do this.
   - To avoid excessive migrations, I placed the entire event's `payload` json in a `text` field on the Event model.  This made it difficult to differentiate or classify events early.  I likely could have used a NoSQL database setup to achieve the same result, but I felt that would entail too much work and it wasn't something I saw myself doing in the future.
-  - The Rails System tests are rather ugly and convoluted since I'm used to the Selenium syntax and not Capybara.  Additionally the tests for my S3EventChecker class are rather implementation heavy as opposed to feature heavy - in other words they are very concerned with how my class works, and not as concerned that it simply does work.  This is probably because most of tested functionality is in AWS' hands, not mine.
+  - The Rails System tests are rather ugly and convoluted since I'm used to the Selenium syntax and not Capybara.  Additionally, the tests for my S3EventChecker class are rather implementation heavy as opposed to feature heavy - in other words they are very concerned with how my class works, and not as concerned that it simply does work.  This is probably because most of tested functionality is in AWS' hands, not mine.
 
 # To do
   - Create a high-level integration test that makes sure AWS is receiving, storing, and forwarding the events properly.
@@ -19,7 +19,7 @@ This app ended up having a more dev-ops/infrastructure focus as opposed to a foc
   - Add Event JSON parsable validation.
   - Put the initializer behind a `Rails::Command::ServerCommand` so that if your AWS infrastructure is not working, you can still run the application without touching the infrastructure.  Because of a `rescue` on `S3EventChecker` however, you should still be able to run the application regardless.
   - Use ActionCable's model syntax.
-  - Add a feature flag to disable S3 event checking (mostly for testing purposes.)
+  - Add a feature flag to disable S3 event checking (mostly for testing purposes).
 
 
 # AWS Infrastructure
